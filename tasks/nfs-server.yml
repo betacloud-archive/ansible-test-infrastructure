@@ -1,0 +1,37 @@
+# This file is subject to the terms and conditions defined in file 'LICENSE',
+# which is part of this repository.
+---
+- name: Create nfs data directory
+  file:
+    state: directory
+    path: /opt/nfs-server-data
+    mode: 0755
+    owner: "{{ operator_user }}"
+    group: "{{ operator_user }}"
+  become: true
+
+- name: Create nfs export directories
+  file:
+    state: directory
+    path: "/opt/nfs-server-data/{{ item }}"
+    mode: 0755
+    owner: "{{ operator_user }}"
+    group: "{{ operator_user }}"
+  with_items: "{{ nfs_server_exports }}"
+
+- name: Pull nfs-server image
+  docker_image:
+    name: "{{ nfs_server_docker_image }}"
+
+- name: Start nfs-server container
+  docker_container:
+    name: bc-nfs-server
+    image: "{{ nfs_server_docker_image }}"
+    state: started
+    recreate: yes
+    restart_policy: always
+    volumes:
+      - "/opt/nfs-server-data:/exports"
+    published_ports:
+      - "{{ ansible_default_ipv4.address }}:111:111/udp"
+      - "{{ ansible_default_ipv4.address }}:2049:2049/tcp"

@@ -1,0 +1,70 @@
+# top level groups
+
+dn: ou=groups,{{ openldap_dn_suffix }}
+objectClass: organizationalUnit
+ou: groups
+
+dn: ou=users,{{ openldap_dn_suffix }}
+objectClass: organizationalUnit
+ou: users
+
+# users
+
+dn: uid=ldapadmin,ou=users,{{ openldap_dn_suffix }}
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: ldapadmin
+sn: User ldapadmin
+givenName: LDAP
+cn: LDAP user ldapadmin
+displayName: LDAP user ldapadmin
+mail: ldapuseradmin@{{ openldap_domain }}
+# slappasswd -s password
+userPassword: {{ openldap_user_password }}
+
+{% for userid in range(openldap_number_of_users) %}
+
+dn: uid=ldapuser{{ userid }},ou=users,{{ openldap_dn_suffix }}
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: ldapuser{{ userid }}
+sn: User {{ userid }}
+givenName: LDAP
+cn: LDAP user {{ userid }}
+displayName: LDAP user {{ userid }}
+mail: ldapuser{{ userid }}@{{ openldap_domain }}
+userPassword: {{ openldap_user_password }}
+
+{% endfor %}
+
+# groups
+
+dn: cn=openstack,ou=groups,{{ openldap_dn_suffix }}
+objectClass: top
+objectClass: groupOfNames
+cn: openstack
+description: openstack enabled users
+member: uid=ldapadmin,ou=users,{{ openldap_dn_suffix }}
+{% for userid in range(openldap_number_of_users) %}
+member: uid=ldapuser{{ userid }},ou=users,{{ openldap_dn_suffix }}
+{% endfor %}
+
+{% for groupid in range(openldap_number_of_groups) %}
+
+dn: cn=ldapgroup{{ groupid }},ou=groups,{{ openldap_dn_suffix }}
+objectClass: top
+objectClass: groupOfNames
+cn: ldapgroup{{ groupid }}
+description: LDAP group {{ groupid }}
+member: uid=ldapadmin,ou=users,{{ openldap_dn_suffix }}
+{% for _ in range(openldap_number_of_member_users) %}
+member: uid=ldapuser{{ range(openldap_number_of_users)|random }},ou=users,{{ openldap_dn_suffix }}
+{% endfor %}
+{% for _ in range(openldap_number_of_member_groups) %}
+member: cn=ldapgroup{{ range(openldap_number_of_groups)|random }},ou=groups,{{ openldap_dn_suffix }}
+{% endfor %}
+{% endfor %}

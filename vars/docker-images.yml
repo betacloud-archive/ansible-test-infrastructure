@@ -1,0 +1,4 @@
+---
+nfs_server_docker_image: "betacloud/nfs-server:{{ nfs_server_version }}"
+openldap_docker_image: "osixia/openldap:{{ openldap_version }}"
+phpldapadmin_docker_image: "osixia/phpldapadmin:{{ phpldapadmin_version }}"

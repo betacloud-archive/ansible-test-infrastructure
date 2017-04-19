@@ -1,0 +1,84 @@
+# This file is subject to the terms and conditions defined in file 'LICENSE',
+# which is part of this repository.
+---
+- name: Create openldap directories
+  file:
+    state: directory
+    path: "/opt/openldap-{{ item }}"
+    mode: 0755
+    owner: "{{ operator_user }}"
+    group: "{{ operator_user }}"
+  with_items:
+    - data
+    - configuration
+  become: true
+
+- name: Copy openldap configuration
+  template:
+    src: openldap/custom.yaml.j2
+    dest: /opt/openldap-configuration/custom.yaml
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_user }}"
+  become: false
+
+- name: Copy ldif file
+  template:
+    src: openldap/scheme.ldif.j2
+    dest: /opt/openldap-data/scheme.ldif
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_user }}"
+  become: false
+
+- name: Pull openldap image
+  docker_image:
+    name: "{{ openldap_docker_image }}"
+
+- name: Start openldap container
+  docker_container:
+    name: bc-openldap
+    image: "{{ openldap_docker_image }}"
+    state: started
+    recreate: yes
+    restart_policy: always
+    volumes:
+      - "/opt/openldap-configuration:/container/environment/01-custom:ro"
+    published_ports:
+      - "{{ ansible_default_ipv4.address }}:389:389"
+
+- name: Pull phpldapadmin image
+  docker_image:
+    name: "{{ phpldapadmin_docker_image }}"
+
+- name: Start phpldapadmin container
+  docker_container:
+    name: bc-phpldapadmin
+    image: "{{ phpldapadmin_docker_image }}"
+    state: started
+    recreate: yes
+    restart_policy: always
+    published_ports:
+      - "{{ ansible_default_ipv4.address }}:6443:443"
+    links:
+      - bc-openldap:openldap
+    env:
+      PHPLDAPADMIN_LDAP_HOSTS: openldap
+
+- name: Install ldap-utils package
+  package:
+    name: ldap-utils
+    state: present
+  become: true
+  when: "ansible_os_family == 'Debian'"
+
+- name: Install openldap-clients package
+  package:
+    name: openldap-clients
+    state: present
+  become: true
+  when: "ansible_os_family == 'RedHat'"
+
+- name: Initialise ldap with testing data
+  shell: "ldapadd -x -c -w {{ openldap_admin_password }} -D 'cn=admin,dc=betacloud,dc=io' -f /opt/openldap-data/scheme.ldif -H ldap://{{ ansible_default_ipv4.address }} || true"
+  changed_when: false

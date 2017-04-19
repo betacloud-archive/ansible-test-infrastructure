@@ -1,0 +1,28 @@
+---
+docker_operator_user: "{{ ansible_user }}"
+operator_user: "{{ ansible_user }}"
+
+# openldap
+
+openldap_number_of_groups: 250
+openldap_number_of_member_groups: 5
+openldap_number_of_member_users: 25
+openldap_number_of_users: 1000
+
+openldap_admin_password: password
+openldap_config_password: password
+openldap_dn_suffix: dc=betacloud,dc=io
+openldap_domain: betacloud.io
+openldap_organisation: Betacloud Solutions GmbH
+openldap_readonly_password: password
+# slappasswd -s password
+openldap_user_password: "{SSHA}ioY5nnSzGn7ALF5LYBPHtj/AB9VBfof2"
+
+# nfs-server
+
+nfs_server_exports:
+  - 001
+  - 002
+  - 003
+  - 004
+  - 005

@@ -1,0 +1,4 @@
+---
+nfs_server_version: latest
+openldap_version: 1.1.8
+phpldapadmin_version: 0.6.12
