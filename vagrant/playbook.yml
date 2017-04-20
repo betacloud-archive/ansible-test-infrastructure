@@ -18,4 +18,13 @@
 
   roles:
   - role: betacloud.docker
+
+- hosts: all
+  connection: paramiko
+
+  pre_tasks:
+  - name: Include molecule variables
+    include_vars: ../vars/molecule.yml
+
+  roles:
   - role: "../../ansible-test-infrastructure"
