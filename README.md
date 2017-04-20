@@ -19,8 +19,9 @@ Dependencies
 Included services
 -----------------
 
-* OpenLDAP + phpLDAPadmin
+* Docker registry
 * NFS server
+* OpenLDAP + phpLDAPadmin
 
 License
 -------

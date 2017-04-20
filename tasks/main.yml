@@ -7,10 +7,14 @@
 - name: Include docker image specific variables
   include_vars: vars/docker-images.yml
 
-- name: Include openldap tasks
-  include: openldap.yml
-  tags: openldap
+- name: Include docker registry tasks
+  include: docker-registry.yml
+  tags: docker-registry
 
 - name: Include nfs-server tasks
   include: nfs-server.yml
   tags: nfs-server
+
+- name: Include openldap tasks
+  include: openldap.yml
+  tags: openldap

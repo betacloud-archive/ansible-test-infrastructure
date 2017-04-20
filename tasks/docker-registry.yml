@@ -1,0 +1,16 @@
+# This file is subject to the terms and conditions defined in file 'LICENSE',
+# which is part of this repository.
+---
+- name: Pull docker registry image
+  docker_image:
+    name: "{{ docker_registry_docker_image }}"
+
+- name: Start docker registry container
+  docker_container:
+    name: bc-docker-registry
+    image: "{{ docker_registry_docker_image }}"
+    state: started
+    recreate: yes
+    restart_policy: always
+    published_ports:
+      - "{{ ansible_default_ipv4.address }}:5000:5000"
