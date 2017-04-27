@@ -4,7 +4,7 @@ driver:
 openstack:
   keyfile: /ssh/id_rsa
   instances:
-    - name: molecule-betacloud.test-infrastructure-ubuntu
+    - name: molecule-test-infrastructure-ubuntu
       image: 'Ubuntu 16.04'
       flavor: vps-ssd-1
       sshuser: ubuntu
@@ -14,7 +14,7 @@ openstack:
         - ubuntu
       security_groups:
         - ssh
-    - name: molecule-betacloud.test-infrastructure-centos
+    - name: molecule-test-infrastructure-centos
       image: 'Centos 7'
       flavor: vps-ssd-1
       sshuser: centos
@@ -33,8 +33,6 @@ dependency:
 verifier:
   name: testinfra
   enabled: False
-  options:
-    connection: ansible
 molecule:
   ignore_paths:
     - .git
