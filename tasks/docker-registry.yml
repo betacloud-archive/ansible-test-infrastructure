@@ -13,4 +13,4 @@
     recreate: yes
     restart_policy: always
     published_ports:
-      - "{{ ansible_default_ipv4.address }}:5000:5000"
+      - "{{ docker_registry_host }}:{{ docker_registry_port }}:5000"

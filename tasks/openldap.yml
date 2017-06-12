@@ -45,7 +45,7 @@
     volumes:
       - "/opt/openldap-configuration:/container/environment/01-custom:ro"
     published_ports:
-      - "{{ ansible_default_ipv4.address }}:389:389"
+      - "{{ openldap_host }}:{{ openldap_port }}:389"
 
 - name: Pull phpldapadmin image
   docker_image:
@@ -59,7 +59,7 @@
     recreate: yes
     restart_policy: always
     published_ports:
-      - "{{ ansible_default_ipv4.address }}:6443:443"
+      - "{{ openldap_host }}:{{ openldap_port_webinterface }}:443"
     links:
       - bc-openldap:openldap
     env:
@@ -80,5 +80,5 @@
   when: "ansible_os_family == 'RedHat'"
 
 - name: Initialise ldap with testing data
-  shell: "ldapadd -x -c -w {{ openldap_admin_password }} -D 'cn=admin,dc=betacloud,dc=io' -f /opt/openldap-data/scheme.ldif -H ldap://{{ ansible_default_ipv4.address }} || true"
+  shell: "ldapadd -x -c -w {{ openldap_admin_password }} -D 'cn=admin,dc=betacloud,dc=io' -f /opt/openldap-data/scheme.ldif -H ldap://{{ openldap_host }} || true"
   changed_when: false

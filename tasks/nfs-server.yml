@@ -33,5 +33,5 @@
     volumes:
       - "/opt/nfs-server-data:/exports"
     published_ports:
-      - "{{ ansible_default_ipv4.address }}:111:111/udp"
-      - "{{ ansible_default_ipv4.address }}:2049:2049/tcp"
+      - "{{ nfs_server_host }}:111:111/udp"
+      - "{{ nfs_server_host }}:2049:2049/tcp"

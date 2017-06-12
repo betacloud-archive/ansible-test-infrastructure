@@ -2,7 +2,16 @@
 docker_operator_user: "{{ ansible_user }}"
 operator_user: "{{ ansible_user }}"
 
+# docker registry
+
+docker_registry_host: "{{ ansible_default_ipv4.address }}"
+docker_registry_port: 5000
+
 # openldap
+
+openldap_host: "{{ ansible_default_ipv4.address }}"
+openldap_port: 389
+openldap_port_webinterface: 6443
 
 openldap_number_of_groups: 250
 openldap_number_of_member_groups: 5
@@ -20,6 +29,7 @@ openldap_user_password: "{SSHA}ioY5nnSzGn7ALF5LYBPHtj/AB9VBfof2"
 
 # nfs-server
 
+nfs_server_host: "{{ ansible_default_ipv4.address }}"
 nfs_server_exports:
   - 001
   - 002
