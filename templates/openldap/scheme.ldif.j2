@@ -1,10 +1,17 @@
 # top level groups
 
+dn: {{ openldap_dn_suffix }}
+objectClass: top
+objectClass: domain
+dc: {{ openldap_dc_suffix }}
+
 dn: ou=groups,{{ openldap_dn_suffix }}
+objectClass: top
 objectClass: organizationalUnit
 ou: groups
 
 dn: ou=users,{{ openldap_dn_suffix }}
+objectClass: top
 objectClass: organizationalUnit
 ou: users
 
@@ -17,9 +24,9 @@ objectClass: organizationalPerson
 objectClass: inetOrgPerson
 uid: ldapadmin
 sn: User ldapadmin
-givenName: LDAP
-cn: LDAP user ldapadmin
-displayName: LDAP user ldapadmin
+cn: ldapadmin
+description: User ldapadmin
+displayName: User ldapadmin
 mail: ldapuseradmin@{{ openldap_domain }}
 # slappasswd -s password
 userPassword: {{ openldap_user_password }}
@@ -33,9 +40,9 @@ objectClass: organizationalPerson
 objectClass: inetOrgPerson
 uid: ldapuser{{ userid }}
 sn: User {{ userid }}
-givenName: LDAP
-cn: LDAP user {{ userid }}
-displayName: LDAP user {{ userid }}
+cn: {{ userid }}
+description: User {{ userid }}
+displayName: User {{ userid }}
 mail: ldapuser{{ userid }}@{{ openldap_domain }}
 userPassword: {{ openldap_user_password }}
 
@@ -47,8 +54,9 @@ dn: cn=openstack,ou=groups,{{ openldap_dn_suffix }}
 objectClass: top
 objectClass: groupOfNames
 cn: openstack
-description: openstack enabled users
+description: OpenStack enabled users
 member: uid=ldapadmin,ou=users,{{ openldap_dn_suffix }}
+member: uid=ldapuser0,ou=users,{{ openldap_dn_suffix }}
 {% for userid in range(openldap_number_of_users) %}
 member: uid=ldapuser{{ userid }},ou=users,{{ openldap_dn_suffix }}
 {% endfor %}
@@ -59,12 +67,10 @@ dn: cn=ldapgroup{{ groupid }},ou=groups,{{ openldap_dn_suffix }}
 objectClass: top
 objectClass: groupOfNames
 cn: ldapgroup{{ groupid }}
-description: LDAP group {{ groupid }}
+description: Group {{ groupid }}
 member: uid=ldapadmin,ou=users,{{ openldap_dn_suffix }}
+member: uid=ldapuser0,ou=users,{{ openldap_dn_suffix }}
 {% for _ in range(openldap_number_of_member_users) %}
 member: uid=ldapuser{{ range(openldap_number_of_users)|random }},ou=users,{{ openldap_dn_suffix }}
-{% endfor %}
-{% for _ in range(openldap_number_of_member_groups) %}
-member: cn=ldapgroup{{ range(openldap_number_of_groups)|random }},ou=groups,{{ openldap_dn_suffix }}
 {% endfor %}
 {% endfor %}

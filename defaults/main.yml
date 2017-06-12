@@ -14,13 +14,13 @@ openldap_port: 389
 openldap_port_webinterface: 6443
 
 openldap_number_of_groups: 10
-openldap_number_of_member_groups: 2
-openldap_number_of_member_users: 2
+openldap_number_of_member_users: 5
 openldap_number_of_users: 100
 
 openldap_admin_password: password
 openldap_config_password: password
 openldap_dn_suffix: dc=betacloud,dc=io
+openldap_dc_suffix: betacloud
 openldap_domain: betacloud.io
 openldap_organisation: Betacloud Solutions GmbH
 openldap_readonly_password: password
