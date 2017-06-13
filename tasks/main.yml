@@ -1,9 +1,6 @@
 # This file is subject to the terms and conditions defined in file 'LICENSE',
 # which is part of this repository.
 ---
-- name: Include docker image specific variables
-  include_vars: vars/docker-images.yml
-
 - name: Include docker registry tasks
   include: docker-registry.yml
   tags: docker-registry
