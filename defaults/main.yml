@@ -36,3 +36,10 @@ nfs_server_exports:
   - 003
   - 004
   - 005
+
+# versions
+
+docker_registry_version: 2
+nfs_server_version: latest
+openldap_version: 1.1.8
+phpldapadmin_version: 0.6.12
