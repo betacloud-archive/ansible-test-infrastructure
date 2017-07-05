@@ -17,4 +17,3 @@ galaxy_info:
   dependencies:
   - name: betacloud.docker
     src: git+https://github.com/betacloud/ansible-docker.git
-    version: 20170426-1053-a43b263

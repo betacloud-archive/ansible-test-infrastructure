@@ -7,6 +7,15 @@ operator_user: "{{ ansible_user }}"
 docker_registry_host: "{{ ansible_default_ipv4.address }}"
 docker_registry_port: 5000
 
+# minio
+
+minio_host: "{{ ansible_default_ipv4.address }}"
+minio_port: 9000
+
+minio_access_key: admin
+minio_secret_key: password
+minio_region: us-east-1
+
 # openldap
 
 openldap_host: "{{ ansible_default_ipv4.address }}"
@@ -40,6 +49,7 @@ nfs_server_exports:
 # versions
 
 docker_registry_version: 2
+minio_version: latest
 nfs_server_version: latest
 openldap_version: 1.1.8
 phpldapadmin_version: 0.6.12
@@ -47,6 +57,7 @@ phpldapadmin_version: 0.6.12
 # images
 
 docker_registry_docker_image: "library/registry:{{ docker_registry_version }}"
+minio_docker_image: "minio/minio:{{ minio_version }}"
 nfs_server_docker_image: "betacloud/nfs-server:{{ nfs_server_version }}"
 openldap_docker_image: "osixia/openldap:{{ openldap_version }}"
 phpldapadmin_docker_image: "osixia/phpldapadmin:{{ phpldapadmin_version }}"

@@ -20,6 +20,7 @@ Included services
 -----------------
 
 * Docker registry
+* Minio
 * NFS server
 * OpenLDAP + phpLDAPadmin
 
