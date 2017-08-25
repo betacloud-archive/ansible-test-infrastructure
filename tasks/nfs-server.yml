@@ -21,12 +21,12 @@
 
 - name: Pull nfs-server image
   docker_image:
-    name: "{{ nfs_server_docker_image }}"
+    name: "{{ nfs_server_image }}"
 
 - name: Start nfs-server container
   docker_container:
     name: bc-nfs-server
-    image: "{{ nfs_server_docker_image }}"
+    image: "{{ nfs_server_image }}"
     state: started
     recreate: yes
     restart_policy: always

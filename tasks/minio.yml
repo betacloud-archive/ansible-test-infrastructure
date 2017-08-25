@@ -12,12 +12,12 @@
 
 - name: Pull minio image
   docker_image:
-    name: "{{ minio_docker_image }}"
+    name: "{{ minio_image }}"
 
 - name: Start minio container
   docker_container:
     name: bc-minio
-    image: "{{ minio_docker_image }}"
+    image: "{{ minio_image }}"
     state: started
     recreate: yes
     restart_policy: always

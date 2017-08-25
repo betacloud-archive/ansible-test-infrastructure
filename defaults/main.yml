@@ -46,18 +46,18 @@ nfs_server_exports:
   - 004
   - 005
 
-# versions
+# tags
 
-docker_registry_version: 2
-minio_version: latest
-nfs_server_version: latest
-openldap_version: 1.1.8
-phpldapadmin_version: 0.6.12
+docker_registry_tag: 2
+minio_tag: latest
+nfs_server_tag: latest
+openldap_tag: 1.1.8
+phpldapadmin_tag: 0.6.12
 
 # images
 
-docker_registry_docker_image: "library/registry:{{ docker_registry_version }}"
-minio_docker_image: "minio/minio:{{ minio_version }}"
-nfs_server_docker_image: "betacloud/nfs-server:{{ nfs_server_version }}"
-openldap_docker_image: "osixia/openldap:{{ openldap_version }}"
-phpldapadmin_docker_image: "osixia/phpldapadmin:{{ phpldapadmin_version }}"
+docker_registry_image: "library/registry:{{ docker_registry_tag }}"
+minio_image: "minio/minio:{{ minio_tag }}"
+nfs_server_image: "betacloud/nfs-server:{{ nfs_server_tag }}"
+openldap_image: "osixia/openldap:{{ openldap_tag }}"
+phpldapadmin_image: "osixia/phpldapadmin:{{ phpldapadmin_tag }}"

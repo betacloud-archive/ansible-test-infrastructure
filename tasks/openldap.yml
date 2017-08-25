@@ -33,12 +33,12 @@
 
 - name: Pull openldap image
   docker_image:
-    name: "{{ openldap_docker_image }}"
+    name: "{{ openldap_image }}"
 
 - name: Start openldap container
   docker_container:
     name: bc-openldap
-    image: "{{ openldap_docker_image }}"
+    image: "{{ openldap_image }}"
     state: started
     recreate: yes
     restart_policy: always
@@ -49,12 +49,12 @@
 
 - name: Pull phpldapadmin image
   docker_image:
-    name: "{{ phpldapadmin_docker_image }}"
+    name: "{{ phpldapadmin_image }}"
 
 - name: Start phpldapadmin container
   docker_container:
     name: bc-phpldapadmin
-    image: "{{ phpldapadmin_docker_image }}"
+    image: "{{ phpldapadmin_image }}"
     state: started
     recreate: yes
     restart_policy: always
