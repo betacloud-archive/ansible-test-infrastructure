@@ -56,8 +56,8 @@ nfs_server_exports:
 registry_tag: 2
 minio_tag: latest
 nfs_server_tag: latest
-openldap_tag: 1.1.8
-phpldapadmin_tag: 0.6.12
+openldap_tag: 1.2.0
+phpldapadmin_tag: 0.7.1
 
 registry_image: "library/registry:{{ registry_tag }}"
 minio_image: "minio/minio:{{ minio_tag }}"
