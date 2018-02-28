@@ -2,11 +2,19 @@
 - name: Include docker registry tasks
   include: docker-registry.yml
   tags: docker-registry
+  when: enable_docker_registry
 
 - name: Include nfs-server tasks
   include: nfs-server.yml
   tags: nfs-server
+  when: enable_nfs_server
 
 - name: Include openldap tasks
   include: openldap.yml
   tags: openldap
+  when: enable_openldap
+
+- name: Include minio tasks
+  include: minio.yml
+  tags: minio
+  when: enable_minio

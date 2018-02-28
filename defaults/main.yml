@@ -2,6 +2,11 @@
 docker_operator_user: "{{ ansible_user }}"
 operator_user: "{{ ansible_user }}"
 
+enable_docker_registry: yes
+enable_minio: yes
+enable_nfs_server: yes
+enable_openldap: yes
+
 # docker registry
 
 docker_registry_host: "{{ ansible_default_ipv4.address }}"
@@ -46,15 +51,13 @@ nfs_server_exports:
   - 004
   - 005
 
-# tags
+# docker images
 
 docker_registry_tag: 2
 minio_tag: latest
 nfs_server_tag: latest
 openldap_tag: 1.1.8
 phpldapadmin_tag: 0.6.12
-
-# images
 
 docker_registry_image: "library/registry:{{ docker_registry_tag }}"
 minio_image: "minio/minio:{{ minio_tag }}"
