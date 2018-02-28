@@ -1,8 +1,8 @@
 ---
-- name: Include docker registry tasks
-  include: docker-registry.yml
-  tags: docker-registry
-  when: enable_docker_registry
+- name: Include registry tasks
+  include: registry.yml
+  tags: registry
+  when: enable_registry
 
 - name: Include nfs-server tasks
   include: nfs-server.yml

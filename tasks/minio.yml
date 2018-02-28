@@ -1,5 +1,5 @@
 ---
-- name: Create minio data directory
+- name: minio - create data directory
   file:
     state: directory
     path: /opt/minio-data
@@ -8,13 +8,13 @@
     group: "{{ operator_user }}"
   become: true
 
-- name: Pull minio image
+- name: minio - pull image
   docker_image:
     name: "{{ minio_image }}"
 
-- name: Start minio container
+- name: minio - start container
   docker_container:
-    name: bc-minio
+    name: minio
     image: "{{ minio_image }}"
     state: started
     recreate: yes

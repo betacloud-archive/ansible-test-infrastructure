@@ -1,5 +1,5 @@
 ---
-- name: Create nfs data directory
+- name: nfs-server - create data directory
   file:
     state: directory
     path: /opt/nfs-server-data
@@ -8,7 +8,7 @@
     group: "{{ operator_user }}"
   become: true
 
-- name: Create nfs export directories
+- name: nfs-server - create export directories
   file:
     state: directory
     path: "/opt/nfs-server-data/{{ item }}"
@@ -17,13 +17,13 @@
     group: "{{ operator_user }}"
   with_items: "{{ nfs_server_exports }}"
 
-- name: Pull nfs-server image
+- name: nfs-server - pull image
   docker_image:
     name: "{{ nfs_server_image }}"
 
-- name: Start nfs-server container
+- name: nfs-server - start container
   docker_container:
-    name: bc-nfs-server
+    name: nfs-server
     image: "{{ nfs_server_image }}"
     state: started
     recreate: yes

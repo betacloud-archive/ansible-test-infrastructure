@@ -1,0 +1,14 @@
+---
+- name: registry - pull image
+  docker_image:
+    name: "{{ registry_image }}"
+
+- name: registry - start container
+  docker_container:
+    name: registry
+    image: "{{ registry_image }}"
+    state: started
+    recreate: yes
+    restart_policy: always
+    published_ports:
+      - "{{ registry_host }}:{{ registry_port }}:5000"

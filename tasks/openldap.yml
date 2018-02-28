@@ -1,5 +1,5 @@
 ---
-- name: Create openldap directories
+- name: openldap - create directories
   file:
     state: directory
     path: "/opt/openldap-{{ item }}"
@@ -11,7 +11,7 @@
     - configuration
   become: true
 
-- name: Copy openldap configuration
+- name: openldap - copy configuration
   template:
     src: openldap/custom.yaml.j2
     dest: /opt/openldap-configuration/custom.yaml
@@ -20,7 +20,7 @@
     group: "{{ operator_user }}"
   become: false
 
-- name: Copy ldif file
+- name: openldap - copy ldif file
   template:
     src: openldap/scheme.ldif.j2
     dest: /opt/openldap-data/scheme.ldif
@@ -29,13 +29,13 @@
     group: "{{ operator_user }}"
   become: false
 
-- name: Pull openldap image
+- name: openldap - pull image
   docker_image:
     name: "{{ openldap_image }}"
 
-- name: Start openldap container
+- name: openldap - start container
   docker_container:
-    name: bc-openldap
+    name: openldap
     image: "{{ openldap_image }}"
     state: started
     recreate: yes
@@ -45,13 +45,13 @@
     published_ports:
       - "{{ openldap_host }}:{{ openldap_port }}:389"
 
-- name: Pull phpldapadmin image
+- name: openldap - pull phpldapadmin image
   docker_image:
     name: "{{ phpldapadmin_image }}"
 
-- name: Start phpldapadmin container
+- name: openldap - start phpldapadmin container
   docker_container:
-    name: bc-phpldapadmin
+    name: phpldapadmin
     image: "{{ phpldapadmin_image }}"
     state: started
     recreate: yes
@@ -59,24 +59,24 @@
     published_ports:
       - "{{ openldap_host }}:{{ openldap_port_webinterface }}:443"
     links:
-      - bc-openldap:openldap
+      - openldap:openldap
     env:
       PHPLDAPADMIN_LDAP_HOSTS: openldap
 
-- name: Install ldap-utils package
+- name: openldap - install ldap-utils package
   package:
     name: ldap-utils
     state: present
   become: true
   when: "ansible_os_family == 'Debian'"
 
-- name: Install openldap-clients package
+- name: openldap - install openldap-clients package
   package:
     name: openldap-clients
     state: present
   become: true
   when: "ansible_os_family == 'RedHat'"
 
-- name: Initialise ldap with testing data
+- name: openldap - import testing data
   shell: "ldapadd -x -c -w {{ openldap_admin_password }} -D 'cn=admin,dc=betacloud,dc=io' -f /opt/openldap-data/scheme.ldif -H ldap://{{ openldap_host }} || true"
   changed_when: false
