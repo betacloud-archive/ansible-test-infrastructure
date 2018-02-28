@@ -14,10 +14,6 @@
 
 - hosts: all
 
-  pre_tasks:
-  - name: Include molecule variables
-    include_vars: ../vars/molecule.yml
-
   - name: Add epel repository
     yum_repository:
       name: epel
@@ -33,10 +29,6 @@
 - name: Playbook for role testing
   hosts: all
   connection: paramiko
-
-  pre_tasks:
-  - name: Include vagrant variables
-    include_vars: vars/vagrant.yml
 
   roles:
   - role: ../../ansible-test-infrastructure
